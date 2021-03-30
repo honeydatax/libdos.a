@@ -1,0 +1,32 @@
+// need file libdos.c to be compile in directory
+//bcc -x -i -L -Md hello.c -o HELLO.COM
+#define varn 0x0080
+char ccc;
+char cc;
+int ii;
+void setDTA(seg,offs);
+
+int main(){
+	int ints=0xf1;
+	int segs=0x7000;
+	int offs=0x8000;
+	setDTA(segs,offs);
+		asm	"db 0xb4,0,0xcd,0x21";
+		
+	return 0;
+}
+
+void setDTA(seg,offs)
+int seg;
+int offs;
+{
+	int *c;
+	c = (int * ) varn;
+	*(c + 0) = seg;
+	*(c + 1) = offs;
+
+	asm	"db 0x1E,0xBB,0x80,0x00,0x2E,0x8B,0x07,0x8E,0xD8,0x43,0x43,0x2E,0x8B,0x14,0xB4,0x1A,0xCD,0x21,0x1F";
+}
+
+
+
