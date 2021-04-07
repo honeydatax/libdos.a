@@ -1,0 +1,49 @@
+// need file libdos.c to be compile in directory
+//bcc -x -i -L -Md hello.c -o HELLO.COM
+#define varn 0x0080
+#define stdout 	0 
+#define stdin 	1 
+#define lpt 	2 
+#define com1 	3 
+int ii;
+void read(file,s,size);
+void sputs(cc);
+
+int main(){
+	char var1[80];
+	char *vars;
+	vars=var1; 
+	read(stdin,vars,8);
+	sputs("\r\n\r\n");
+	sputs(vars);
+	sputs("\r\n\r\n");
+		asm	"db 0xb4,0,0xcd,0x21";
+		
+	return 0;
+}
+
+void read(file,s,size)
+int file;
+char *s;
+int size;
+{
+	int *c;
+	c = (int * ) varn;
+	*(c + 0) = file;
+	*(c + 1) = s;
+	*(c + 2) = size;
+
+	asm	"db 0x1E,0x56,0x8C,0xC8,0x8E,0xD8,0xBE,0x80,0x00,0x2E,0x8B,0x1C,0x46,0x46,0x2E,0x8B,0x14,0x46,0x46,0x2E,0x8B,0x0C,0xB4,0x3F,0xCD,0x21,0x5E,0x1F";
+}
+
+void sputs(cc)
+char *cc;
+{
+	int *c;
+	int i;
+	c = (int * ) varn;
+	*(c + 0) = cc;
+
+	asm	"db 0xbb,0x80,0x0,0x2e,0x8b,0x17,0xb4,0x09,0xcd,0x21";
+}
+
