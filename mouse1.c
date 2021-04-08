@@ -9,9 +9,9 @@
 #define COM3 2
 #define COM4 3
 #define RIGTH	64
-#define LEFT	67
+#define LEFT	79
 #define UP		76
-#define DOWN	63
+#define DOWN	67
 #define CLICK	80
 
 int ii;
@@ -19,7 +19,9 @@ void sputs(cc);
 int comport(ports);
 
 int main(){
-
+	int x=0;
+	int y=0;
+	int clicks=0;
 	int n=0;
 	int nn=0;
 	int b=0;
