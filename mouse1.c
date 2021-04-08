@@ -11,7 +11,7 @@
 #define RIGTH	64
 #define LEFT	67
 #define UP		76
-#define DOWN	64
+#define DOWN	63
 #define CLICK	80
 
 int ii;
