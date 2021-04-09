@@ -54,12 +54,12 @@ int main(){
 		}
 		if (x<0)x=0;
 		if (y<0)y=0;
-		if (x>639)x=639;
-		if (y>479)y=479;
+		if (x>79)x=79;
+		if (y>24)y=24;
 		
-		if (x/8!=x1 || y/8!=y1){
-			y1=y/8;
-			x1=x/8;
+		if (x!=x1 || y!=y1){
+			y1=y;
+			x1=x;
 			locate(x1,y1);
 		}
 
