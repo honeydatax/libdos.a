@@ -1,0 +1,89 @@
+// need file libdos.c to be compile in directory
+//bcc -x -i -L -Md hello.c -o HELLO.COM
+#define varn 0x0080
+#define stdout 0 
+#define lpt 2 
+#define com1 3 
+#define blue 0x19
+#define lscr1 40
+#define lscr3 80
+int ii;
+void putc(cc,color);
+void puts(s,color);
+void screens(n);
+void paints(x,y,color,size);
+int colorsbc(backsc,forec);
+
+int main(){
+	int n=0;
+	screens(1);
+	paints(0,0,blue,40*17);
+	for(n=0;n<8;n++){
+		paints(0,n,colorsbc(n,n+8),40);
+		puts("hello world\r\n",colorsbc(n,n+8));
+	}
+			asm	"db 0xb4,0,0xcd,0x21";
+		
+	return 0;
+}
+
+int colorsbc(backsc,forec)
+int backsc;
+int forec;
+{
+	return (backsc << 4) | forec;
+}
+
+
+void puts(s,color)
+char *s;
+int color;
+{
+	int n=0;
+	for(n=0;n<32008;n++){
+		putc(s[n],color);
+		if(s[n]==0)n=32016;
+	}
+}
+
+void putc(cc,color)
+char cc;
+int color;
+{
+	int *c;
+	c = (int * ) varn;
+	*(c + 0) = cc;
+	*(c + 1) = color;
+
+	asm	"db 0x1E,0x06,0x2E,0xA0,0x80,0x00,0x2E,0x8A,0x1E,0x82,0x00,0xB4,0x0E,0xB7,0x00,0xCD,0x10,0x07,0x1F";
+}
+
+void paints(x,y,color,size)
+int x;
+int y;
+int color;
+int size;
+{
+	int *c;
+	c = (int * ) varn;
+	*(c + 0) = (y*(lscr1*2))+(x*2)+1;
+	*(c + 1) = color;
+	*(c + 2) = size;
+
+	asm	"db 0x1E,0x06,0x2E,0x8B,0x3E,0x80,0x00,0x2E,0xA0,0x82,0x00,0x2E,0x8B,0x0E,0x84,0x00,0xBA,0x00,0xB8,0x8E,0xC2,0x90,0x26,0x88,0x05,0xF8,0x83,0xC7,0x02,0x49,0x83,0xF9,0x00,0x75,0xF2,0x07,0x1F";
+}
+
+
+
+
+
+void screens(n)
+int n;
+{
+	int *c;
+	c = (int * ) varn;
+	*(c + 0) = n;
+
+
+	asm	"db 0x1E,0x56,0x8C,0xC8,0x8E,0xD8,0xBE,0x80,0x00,0x2E,0x8A,0x04,0xB4,0x00,0xCD,0x10,0x5E,0x1F";
+}
