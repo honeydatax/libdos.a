@@ -12,12 +12,9 @@ int main(){
 	int n=0;
 	char s[80];
 		for (k=0;k<16;k++){
-			bset(n,k);
 			tobin(k,s);
 			sputs(s);
-			breset(n,k);
 			sputs("\r\n\0$");
-			n=n+n;
 		}
 
 		asm	"db 0xb4,0,0xcd,0x21";
@@ -80,10 +77,10 @@ char *txt;
 {
 	int n;
 	int i;
-	for(n=0;n<16;n++)txt[n]='0';
+	for(n=0;n<17;n++)txt[n]='0';
 	for(n=0;n<16;n++){
 		i=bits(value,n);
-		if(i==1)txt[15-n]='1';
+		if(i!=0)txt[15-n]='1';
 	}
 	txt[16]=0;
 	txt[17]='$';
@@ -92,18 +89,20 @@ int bits(value,n)
 int value;
 int n;
 {
-	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
+	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
 	int nn;
+	int nnn;
 	nn=value & bitv[n];
-	nn=nn >> n;
+	if(nn!=0)nn=1;
+
 	return nn;
 }
 
 int bset(value,n)
-int *value;
+int value;
 int n;
 {
-	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
+	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
 	int nn;
 	nn=value;
 	nn=nn | bitv[n];
@@ -111,14 +110,14 @@ int n;
 }
 
 int breset(value,n)
-int *value;
+int value;
 int n;
 {
 	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
 	int nn;
 	int n1;
 	nn=value;
-	n1=~(bitv[n]);
+	n1=~bitv[n];
 	nn=nn & n1;
 	return nn;
 }
