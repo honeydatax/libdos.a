@@ -91,18 +91,20 @@ int bits(value,n)
 int value;
 int n;
 {
-	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
+	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
 	int nn;
+	int nnn;
 	nn=value & bitv[n];
-	nn=nn >> n;
+	if(nn!=0)nn=1;
+
 	return nn;
 }
 
 int bset(value,n)
-int *value;
+int value;
 int n;
 {
-	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
+	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
 	int nn;
 	nn=value;
 	nn=nn | bitv[n];
@@ -110,7 +112,7 @@ int n;
 }
 
 int breset(value,n)
-int *value;
+int value;
 int n;
 {
 	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
