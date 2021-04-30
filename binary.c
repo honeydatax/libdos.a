@@ -72,7 +72,7 @@ while(cc[i]!=0){
 }
 
 void tobin(value,txt)
-int value;
+unsigned int value;
 char *txt;
 {
 	int n;
@@ -86,15 +86,23 @@ char *txt;
 	txt[17]='$';
 }
 int bits(value,n)
-int value;
+unsigned int value;
 int n;
 {
-	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
-	int nn;
-	int nnn;
-	nn=value & bitv[n];
+	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000,0,0};
+	unsigned int nn;
+	unsigned nnn;
+	unsigned nnnn;
+	nnnn=value;
+	nn=value & 0x7fff;
+	nn=nn & bitv[n];
 	if(nn!=0)nn=1;
-
+	if (n==15 && value>=0x7fff){
+		nn=1;
+	}
+	if (n==15 && value<0x8000){
+		nn=0;
+	}
 	return nn;
 }
 
@@ -102,7 +110,7 @@ int bset(value,n)
 int value;
 int n;
 {
-	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
+	static signed int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000,0,0};
 	int nn;
 	nn=value;
 	nn=nn | bitv[n];
@@ -113,7 +121,7 @@ int breset(value,n)
 int value;
 int n;
 {
-	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000};
+	static unsigned int bitv[]={1,2,4,8,16,32,64,128,512,1024,2048,4096,8192,16384,0x8000,0,0};
 	int nn;
 	int n1;
 	nn=value;
