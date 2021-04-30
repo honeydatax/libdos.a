@@ -99,7 +99,7 @@ int n;
 	nn=value & 0x7fff;
 	nn=nn & bitv[n];
 	if(nn!=0)nn=1;
-	if (n==15 && value>=0x7fff){
+	if (n==15 && value>0x7fff){
 		nn=1;
 	}
 	if (n==15 && value<0x8000){
